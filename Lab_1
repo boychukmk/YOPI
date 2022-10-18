@@ -1,0 +1,112 @@
+import sympy
+import math
+import numpy as np
+import matplotlib.pyplot as plt
+import libs
+
+
+from collections import Counter
+
+myTxt = open("Test10.txt", "r")
+
+with open("Test10.txt") as file:
+    array = [row.strip() for row in file]
+
+int_array = [int(x) for x in array]
+
+def median(data):
+    x = len(data)
+    index = x // 2
+    if x % 2:
+        return sorted(data)[index]
+    else:
+        return sum(sorted(data)[index - 1:index + 1]) / 2
+
+    print(median(int_array))
+
+
+
+def moda(data):
+    number = Counter(data)
+    return [k for k, v in number.items() if v == number.most_common(1)[0][1]]
+
+
+def dispertion(data):
+    numb = len(data) 
+    mean = sum(data) / numb  
+
+    deviations = [(x - mean) ** 2 for x in data]  # квадратичное отклонение от среднего
+
+    dispertion = sum(deviations) / numb
+    return dispertion.__round__(2)
+
+
+def number_of(data):
+    number = Counter(data)
+    return [v for k, v in number.items()]
+
+
+def sum_numb(data):
+    number = Counter(data)
+    summa = 0
+    for k, v in number.items():
+        summa += v
+        print(summa, end="\t")
+
+
+def mid_quadr_dev(data):
+    return math.sqrt(dispertion(data)).__round__(2)
+
+
+def tablesSORTED(data):
+    summa = 0
+    for numb in sorted(data):
+        summa += numb
+        print(summa, end="\t")
+
+
+def hist(data):
+    numb = len(data)
+    plt.hist(data)
+    plt.xlabel("кількість переглядів")
+    plt.ylabel("кількість фільмів")
+    plt.title("Завдання №4")
+    plt.show()
+
+
+def Sort():
+    print("\n----------------------------------------------------------------------------------\n")
+    print(" Відсортована таблиця  : ")
+    print(sorted(int_array))
+    print("----------------------------------------------------------------------------------\n")
+    print(" Таблиця сукупних :")
+    tablesSORTED(int_array)
+    print("\n----------------------------------------------------------------------------------\n")
+    print(" Таблиця частот : ")
+    print(number_of(int_array))
+    print("\n----------------------------------------------------------------------------------\n")
+    print(" Таблиця сукупних частот:")
+    print(sum_numb(int_array))
+
+
+
+
+def task1():
+  print("----------------------------------------------------------------------------------")
+  print(" Таблиця  : ")
+  print(int_array)
+  print("----------------------------------------------------------------------------------\n")
+
+  print(" Найбільше переглядів у фільма з індексом : ", int_array.index(max(int_array)))
+  print("\n Тепер відсортуємо наші данні")
+  Sort()
+task1()
+print("\n~~~ Завдання №2 ~~~~~")
+print(" Медіана : ", median(int_array))
+print(" Мода : ", moda(int_array))
+print("~~~~~~~~~~~~~~~~~~~~~")
+print("\n~~~~~~~~~~~~~~~~~~~ Завдання №3 ~~~~~~~~~~~~~~~~~~~~~")
+print(" Дисперсія : ", dispertion(int_array))
+print(" Середнє квадратичне відхилення : ", mid_quadr_dev(int_array))
+print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+hist(int_array)
